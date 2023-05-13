@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ public class SetController {
 
 	@Autowired
 	SetRepo sr;
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@GetMapping("/sets/{id}")
 	public ResponseEntity<Set_> getASet(@PathVariable int id){
 		Optional<Set_> o=sr.findById(id);
@@ -32,7 +33,7 @@ public class SetController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@PutMapping("/sets/{id}")
 	public ResponseEntity<Set_> updateSet(@RequestBody Set_ u, @PathVariable int id){
 		Optional<Set_> o=sr.findById(id);
@@ -49,7 +50,7 @@ public class SetController {
 		}
 		
 	}
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@DeleteMapping("/sets/{id}")
 	public ResponseEntity<Void> deleteSet(@PathVariable int id){
 		Optional<Set_> o=sr.findById(id);

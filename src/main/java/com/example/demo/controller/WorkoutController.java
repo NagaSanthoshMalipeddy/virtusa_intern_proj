@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class WorkoutController {
 	@Autowired
 	ExerciseRepo er;
 	
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@GetMapping("/workouts/{id}")
 	public ResponseEntity<Workout> getAWorkout(@PathVariable int id){
 		Optional<Workout> o=wr.findById(id);
@@ -41,7 +42,7 @@ public class WorkoutController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@PutMapping("/workouts/{id}")
 	public ResponseEntity<Workout> updateWorkout(@RequestBody Workout u, @PathVariable int id){
 		Optional<Workout> o=wr.findById(id);
@@ -58,7 +59,7 @@ public class WorkoutController {
 		}
 		
 	}
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@DeleteMapping("/workouts/{id}")
 	public ResponseEntity<Void> deleteWorkout(@PathVariable int id){
 		Optional<Workout> o=wr.findById(id);
@@ -72,7 +73,7 @@ public class WorkoutController {
 	}
 	
 	
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@GetMapping("/workouts/{id}/exercises")
 	public List<Exercise> exercisesOfSpecificWorkout(@PathVariable int id){
 		Optional<Workout> o=wr.findById(id);
@@ -88,7 +89,7 @@ public class WorkoutController {
 		}
 		return null;
 	}
-	
+	@CrossOrigin(origins="http://localhost:3000")
 	@PostMapping("/workouts/{id}/exercises")
 	public ResponseEntity<Void> exercisesOfSpecificWorkout(@PathVariable int id,@RequestBody Exercise e){
 		Optional<Workout> o=wr.findById(id);
