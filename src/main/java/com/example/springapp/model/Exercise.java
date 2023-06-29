@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.springapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,24 +7,24 @@ import javax.persistence.Id;
 
 @Entity
 public class Exercise {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-	private int workout_id;
+	private Long id;
+	private Long workoutId;
 	private String name;
 	private String description;
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getWorkout_id() {
-		return workout_id;
+	public Long getWorkoutId() {
+		return workoutId;
 	}
-	public void setWorkout_id(int workout_id) {
-		this.workout_id = workout_id;
+	public void setWorkoutId(Long workoutId) {
+		this.workoutId = workoutId;
 	}
 	public String getName() {
 		return name;
@@ -38,19 +38,19 @@ public class Exercise {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Exercise(int id, int workout_id, String name, String description) {
+	public Exercise(Long id, Long workoutId, String name, String description) {
 		super();
 		this.id = id;
-		this.workout_id = workout_id;
+		this.workoutId = workoutId;
 		this.name = name;
 		this.description = description;
 	}
 	public Exercise() {
 		super();
 	}
-	public Exercise(int workout_id, String name, String description) {
+	public Exercise(Long workoutId, String name, String description) {
 		super();
-		this.workout_id = workout_id;
+		this.workoutId = workoutId;
 		this.name = name;
 		this.description = description;
 	}

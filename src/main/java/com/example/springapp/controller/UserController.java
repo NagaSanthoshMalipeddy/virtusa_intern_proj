@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.springapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,33 +16,33 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.User;
-import com.example.demo.entity.Workout;
-import com.example.demo.repo.UserRepo;
-import com.example.demo.repo.WorkoutRepo;
+import com.example.springapp.model.User;
+import com.example.springapp.model.Workout;
+import com.example.springapp.repository.UserRepository;
+import com.example.springapp.repository.WorkoutRepository;
 
 @RestController
 public class UserController {
 
 	@Autowired
-	UserRepo ur;
+	UserRepository ur;
 	
 	@Autowired
-	WorkoutRepo wr;
+	WorkoutRepository wr;
 	
 	@CrossOrigin(origins="http://localhost:3000")
-	@GetMapping("/users")
+	@GetMapping("/user")
 	public List<User> getAllUsers() {
 		return ur.findAll();
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@PostMapping("/users")
+	@PostMapping("/user/register")
 	public ResponseEntity<User> addUser(@RequestBody User u){
 		return new ResponseEntity<>(ur.save(u),HttpStatus.CREATED);
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getAnUser(@PathVariable int id){
+	@GetMapping("/user/{id}")
+	public ResponseEntity<User> getAnUser(@PathVariable Long id){
 		Optional<User> o=ur.findById(id);
 		if(o.isPresent()) {
 			return new ResponseEntity<>(o.get(),HttpStatus.OK);
@@ -52,9 +52,9 @@ public class UserController {
 		}
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(@RequestBody User u, @PathVariable int id){
-		Optional<User> o=ur.findById(id);
+	@PutMapping("/user")
+	public ResponseEntity<User> updateUser(@RequestBody User u){
+		Optional<User> o=ur.findById(u.getId());
 		
 		if(o.isPresent()) {
 			o.get().setAge(u.getAge());
@@ -62,7 +62,7 @@ public class UserController {
 			o.get().setGender(u.getGender());
 			o.get().setHeight(u.getHeight());
 			o.get().setName(u.getName());
-			o.get().setPassword(u.getPassword());
+			o.get().setPassword(o.get().getPassword());
 			o.get().setWeight(u.getWeight());
 			return new ResponseEntity<>(ur.save(o.get()),HttpStatus.OK);
 		}
@@ -72,8 +72,8 @@ public class UserController {
 		
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@DeleteMapping("/users/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable int id){
+	@DeleteMapping("/user/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long id){
 		Optional<User> o=ur.findById(id);
 		if(o.isPresent()) {
 			ur.deleteById(id);
@@ -85,7 +85,7 @@ public class UserController {
 	}
 	@CrossOrigin(origins="http://localhost:3000")
 	@GetMapping("/users/{id}/workouts")
-	public List<Workout> workoutsOfSpecificUser(@PathVariable int id){
+	public List<Workout> workoutsOfSpecificUser(@PathVariable Long id){
 		Optional<User> o=ur.findById(id);
 		if(o.isPresent()) {
 			List<Workout>l=wr.findAll();
@@ -101,7 +101,7 @@ public class UserController {
 	}
 	@CrossOrigin(origins="http://localhost:3000")
 	@PostMapping("/users/{id}/workouts")
-	public ResponseEntity<Void> workoutsOfSpecificUser(@PathVariable int id,@RequestBody Workout w){
+	public ResponseEntity<Void> workoutsOfSpecificUser(@PathVariable Long id,@RequestBody Workout w){
 		Optional<User> o=ur.findById(id);
 		if(o.isPresent()) {
 			w.setUser_id(id);

@@ -1,9 +1,8 @@
-package com.example.demo.controller;
+package com.example.springapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,64 +16,70 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Exercise;
-import com.example.demo.entity.Set_;
-import com.example.demo.entity.User;
-import com.example.demo.entity.Workout;
-import com.example.demo.repo.ExerciseRepo;
-import com.example.demo.repo.SetRepo;
+import com.example.springapp.model.Exercise;
+import com.example.springapp.model.Set_;
+import com.example.springapp.repository.ExerciseRepository;
+import com.example.springapp.repository.SetRepository;
 
 @RestController
 public class ExerciseController {
 
 	@Autowired
-	ExerciseRepo er;
+	ExerciseRepository er;
 	
 	@Autowired
-	SetRepo sr;
+	SetRepository sr;
+	
+	
 	@CrossOrigin(origins="http://localhost:3000")
-	@GetMapping("/exercises/{id}")
-	public ResponseEntity<Exercise> getAnExercise(@PathVariable int id){
+	@GetMapping("/exercise")
+	public List<Exercise> getAllExercises(){
+		return er.findAll();
+	}
+	
+	@CrossOrigin(origins="http://localhost:3000")
+	@GetMapping("/exercise/{id}")
+	public ResponseEntity<Exercise> getAnExercise(@PathVariable Long id){
 		Optional<Exercise> o=er.findById(id);
 		if(o.isPresent()) {
 			return new ResponseEntity<>(o.get(),HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@PutMapping("/exercises/{id}")
-	public ResponseEntity<Exercise> updateExercise(@RequestBody Exercise u, @PathVariable int id){
+	@PutMapping("/exercise/{id}")
+	public ResponseEntity<Exercise> updateExercise(@RequestBody Exercise u, @PathVariable Long id){
 		Optional<Exercise> o=er.findById(id);
 		
 		if(o.isPresent()) {
 			o.get().setDescription(u.getDescription());
 			o.get().setName(u.getName());
-			o.get().setWorkout_id(u.getWorkout_id());
+			o.get().setWorkoutId(u.getWorkoutId());
 			return new ResponseEntity<>(er.save(o.get()),HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@DeleteMapping("/exercises/{id}")
-	public ResponseEntity<Void> deleteExercise(@PathVariable int id){
+	@DeleteMapping("/exercise/{id}")
+	public ResponseEntity<Void> deleteExercise(@PathVariable Long id){
 		Optional<Exercise> o=er.findById(id);
 		if(o.isPresent()) {
 			er.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 	
 	@CrossOrigin(origins="http://localhost:3000")
-	@GetMapping("/exercises/{id}/sets")
-	public List<Set_> SetssOfSpecificExercise(@PathVariable int id){
+	@GetMapping("/exercise/{id}/sets")
+	public List<Set_> SetssOfSpecificExercise(@PathVariable Long id){
 		Optional<Exercise> o=er.findById(id);
 		if(o.isPresent()) {
 			List<Set_>l=sr.findAll();
@@ -85,20 +90,18 @@ public class ExerciseController {
 				}
 			}
 			return l1;
-		}
-		return null;
+		}return null;
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@PostMapping("/exercises/{id}/sets")
-	public ResponseEntity<Void> newSetForAnExercise(@PathVariable int id,@RequestBody Set_ s){
+	@PostMapping("/exercise/{id}/sets")
+	public ResponseEntity<Void> newSetForAnExercise(@PathVariable Long id,@RequestBody Set_ s){
 		Optional<Exercise> o=er.findById(id);
 		if(o.isPresent()) {
 			s.setExerciseId(id);
 			sr.save(s);
-			return new ResponseEntity<>(HttpStatus.OK);
 		}
 
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

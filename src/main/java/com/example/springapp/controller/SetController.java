@@ -1,5 +1,6 @@
-package com.example.demo.controller;
+package com.example.springapp.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +14,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Set_;
-import com.example.demo.entity.User;
-import com.example.demo.repo.SetRepo;
+import com.example.springapp.model.Set_;
+import com.example.springapp.repository.SetRepository;
 
 @RestController
 public class SetController {
 
 	@Autowired
-	SetRepo sr;
+	SetRepository sr;
+	
 	@CrossOrigin(origins="http://localhost:3000")
-	@GetMapping("/sets/{id}")
-	public ResponseEntity<Set_> getASet(@PathVariable int id){
+	@GetMapping("/set")
+	public List<Set_> getAllSet(){
+		return sr.findAll();
+	}
+	
+	@CrossOrigin(origins="http://localhost:3000")
+	@GetMapping("/set/{id}")
+	public ResponseEntity<Set_> getASet(@PathVariable Long id){
 		Optional<Set_> o=sr.findById(id);
 		if(o.isPresent()) {
 			return new ResponseEntity<>(o.get(),HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@PutMapping("/sets/{id}")
-	public ResponseEntity<Set_> updateSet(@RequestBody Set_ u, @PathVariable int id){
+	@PutMapping("/set/{id}")
+	public ResponseEntity<Set_> updateSet(@RequestBody Set_ u, @PathVariable Long id){
 		Optional<Set_> o=sr.findById(id);
 		
 		if(o.isPresent()) {
@@ -46,20 +53,21 @@ public class SetController {
 			return new ResponseEntity<>(sr.save(o.get()),HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
 	}
 	@CrossOrigin(origins="http://localhost:3000")
-	@DeleteMapping("/sets/{id}")
-	public ResponseEntity<Void> deleteSet(@PathVariable int id){
-		Optional<Set_> o=sr.findById(id);
+	@DeleteMapping("/set/{id}")
+	public ResponseEntity<Void> deleteSet(@PathVariable String id){
+		Optional<Set_> o=sr.findById(Long.parseLong(id));
 		if(o.isPresent()) {
-			sr.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			sr.deleteById(Long.parseLong(id));
+			
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 	

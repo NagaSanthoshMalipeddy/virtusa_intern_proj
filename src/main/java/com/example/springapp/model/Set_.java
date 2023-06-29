@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.springapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,53 +10,53 @@ public class Set_ {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private int exerciseId;
-	private int reps;
-	private double weight;
-	private int duration;
+	private Long id;
+	private Long exerciseId;
+	private Long reps;
+	private String weight;
+	private String duration;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getExerciseId() {
+	public Long getExerciseId() {
 		return exerciseId;
 	}
 
-	public void setExerciseId(int exerciseId) {
+	public void setExerciseId(Long exerciseId) {
 		this.exerciseId = exerciseId;
 	}
 
-	public int getReps() {
+	public Long getReps() {
 		return reps;
 	}
 
-	public void setReps(int reps) {
+	public void setReps(Long reps) {
 		this.reps = reps;
 	}
 
-	public double getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 
-	public Set_(int id, int exerciseId, int reps, double weight, int duration) {
+	public Set_(Long id, Long exerciseId, Long reps, String weight, String duration) {
 		super();
 		this.id = id;
 		this.exerciseId = exerciseId;
@@ -65,7 +65,7 @@ public class Set_ {
 		this.duration = duration;
 	}
 
-	public Set_(int exerciseId, int reps, double weight, int duration) {
+	public Set_(Long exerciseId, Long reps, String weight, String duration) {
 		super();
 		this.exerciseId = exerciseId;
 		this.reps = reps;

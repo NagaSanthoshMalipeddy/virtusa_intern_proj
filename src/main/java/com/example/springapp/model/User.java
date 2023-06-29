@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.springapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,18 +10,21 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Long id;
+    
 	private String name;
 	private String email;
 	private String password;
-	private double height;
-	private double weight;
-	private int age;
+	private String height;
+	private String weight;
+	private Long age;
 	private String gender;
-	public int getId() {
+    private String role;
+    private String goals;
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -42,22 +45,22 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public double getHeight() {
+	public String getHeight() {
 		return height;
 	}
-	public void setHeight(double height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
-	public double getWeight() {
+	public String getWeight() {
 		return weight;
 	}
-	public void setWeight(double weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
-	public int getAge() {
+	public Long getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(Long age) {
 		this.age = age;
 	}
 	public String getGender() {
@@ -66,8 +69,22 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public User(int id, String name, String email, String password, double height, double weight, int age,
-			String gender) {
+
+    public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+    public String getGoals() {
+		return goals;
+	}
+	public void setGoals(String goals) {
+		this.goals = goals;
+	}
+	public User(Long id, String name, String email, String password, String height, String weight, Long age,
+			String gender,String role, String goals) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -77,8 +94,11 @@ public class User {
 		this.weight = weight;
 		this.age = age;
 		this.gender = gender;
+        this.role=role;
+        this.goals=goals;
 	}
-	public User(String name, String email, String password, double height, double weight, int age, String gender) {
+	public User(String name, String email, String password, String height, String weight, Long age,
+    String gender,String role, String goals) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -87,11 +107,11 @@ public class User {
 		this.weight = weight;
 		this.age = age;
 		this.gender = gender;
+        this.role=role;
+        this.goals=goals;
 	}
 	public User() {
 		super();
 	}
-	
-	
-	
+
 }
